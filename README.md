@@ -31,35 +31,35 @@ Proyek ini dibangun menggunakan tumpukan teknologi modern berbasis React dan Typ
 
 ```
 boat-rental/
-├── public/ # Folder untuk aset statis
-├── src/ # Folder kode sumber utama 
-├── components/ # Komponen-komponen React 
+├── public/                     # Folder untuk aset statis
+├── src/                        # Folder kode sumber utama 
+├── components/                 # Komponen-komponen React 
 ├── figma/ 
-  └── ImageWithFallback.tsx # Komponen image dengan fallback 
-├── ui/ # Komponen UI inti dari shadcn/ui 
+  └── ImageWithFallback.tsx     # Komponen image dengan fallback 
+├── ui/                         # Komponen UI inti dari shadcn/ui 
 ├── alert.tsx 
 ├── button.tsx
 ├── dialog.tsx│
   └── ... (dan komponen ui lainnya) 
-├── BoatCard.tsx # Komponen kartu untuk menampilkan kapal 
-├── BookingModal.tsx # Komponen modal untuk proses pemesanan 
-├── BottomNav.tsx # Komponen navigasi bawah (tab) 
-├── LanguageSwitcher.tsx # Komponen untuk ganti bahasa 
-├── LoyaltyCard.tsx # Komponen kartu loyalitas pengguna 
-  └── SearchHeader.tsx # Komponen header pencarian di halaman utama 
+├── BoatCard.tsx                # Komponen kartu untuk menampilkan kapal 
+├── BookingModal.tsx            # Komponen modal untuk proses pemesanan 
+├── BottomNav.tsx               # Komponen navigasi bawah (tab) 
+├── LanguageSwitcher.tsx        # Komponen untuk ganti bahasa 
+├── LoyaltyCard.tsx             # Komponen kartu loyalitas pengguna 
+  └── SearchHeader.tsx          # Komponen header pencarian di halaman utama 
 ├── guidelines/ 
-  └── Guidelines.md # Panduan untuk pengembangan 
+  └── Guidelines.md             # Panduan untuk pengembangan 
 ├── styles/ 
-  └── globals.css # File CSS global dan variabel Tailwind 
-├── App.tsx # Komponen aplikasi utama (root component) 
-├── Attributions.md # Atribusi untuk aset pihak ketiga 
-├── index.css # File CSS tambahan 
-  └── main.tsx # Titik masuk (entry point) aplikasi React
+  └── globals.css               # File CSS global dan variabel Tailwind 
+├── App.tsx                     # Komponen aplikasi utama (root component) 
+├── Attributions.md             # Atribusi untuk aset pihak ketiga 
+├── index.css                   # File CSS tambahan 
+  └── main.tsx                  # Titik masuk (entry point) aplikasi React
 ├── .gitignore
-├── index.html # File HTML utama
-├── package.json # Dependensi proyek dan skrip
-├── README.md # Dokumentasi proyek (file ini)
-  └── vite.config.ts # Konfigurasi build tool Vite
+├── index.html                  # File HTML utama
+├── package.json                # Dependensi proyek dan skrip
+├── README.md                   # Dokumentasi proyek 
+  └── vite.config.ts            # Konfigurasi build tool Vite
 ```
 
 
