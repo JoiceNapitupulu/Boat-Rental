@@ -1,11 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { SearchHeader } from './components/SearchHeader';
 import { BoatCard } from './components/BoatCard';
 import { BookingModal } from './components/BookingModal';
 import { BottomNav } from './components/BottomNav';
 import { LanguageSwitcher } from './components/LanguageSwitcher';
 import { LoyaltyCard } from './components/LoyaltyCard';
+import { SplashScreen } from './components/SplashScreen';
 import { Filter, Star, Navigation, MessageCircle, Award } from 'lucide-react';
+import soraLogo from 'figma:asset/b4398db50b454ae1b722a3f11af68f59d92f1dad.png';
 
 interface SearchParams {
   location: string;
@@ -14,63 +16,138 @@ interface SearchParams {
 }
 
 const soraBoats = [
+  // Water Sports Activities in Samosir
   {
-    id: '1',
-    name: 'Kapal Tradisional Batak',
-    image: 'https://images.unsplash.com/photo-1676180600433-5109519eca6c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0cmFkaXRpb25hbCUyMGluZG9uZXNpYW4lMjBib2F0JTIwbGFrZXxlbnwxfHx8fDE3NTkyOTMwMjh8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-    location: 'Tomok - Samosir',
-    capacity: 15,
-    rating: 4.8,
-    reviews: 89,
-    price: 150000,
-    type: 'Kapal Tradisional',
-    duration: '45 menit',
-    hasGps: true
-  },
-  {
-    id: '2',
-    name: 'Speed Boat Modern',
-    image: 'https://images.unsplash.com/photo-1569832653475-fd1028ed7eab?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsYWtlJTIwdG9iYSUyMHNhbW9zaXIlMjBpc2xhbmR8ZW58MXx8fHwxNzU5MjkzMDMxfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-    location: 'Parapat - Tuk Tuk',
-    capacity: 8,
+    id: '5',
+    name: 'Jetski Adventure',
+    image: 'https://images.unsplash.com/photo-1648484983838-b47185140bee?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxqZXRza2klMjB3YXRlciUyMHNwb3J0cyUyMGxha2V8ZW58MXx8fHwxNzU5OTI4NDY5fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+    location: 'Samosir',
+    capacity: 2,
     rating: 4.9,
-    reviews: 156,
-    price: 200000,
-    type: 'Speed Boat',
-    duration: '30 menit',
-    hasGps: true
-  },
-  {
-    id: '3',
-    name: 'Kapal Wisata Danau',
-    image: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsYWtlJTIwYm9hdCUyMHRvdXJpc218ZW58MXx8fHwxNzU5MjkzMDMyfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-    location: 'Balige - Simanindo',
-    capacity: 25,
-    rating: 4.7,
-    reviews: 203,
-    price: 120000,
-    type: 'Kapal Wisata',
+    reviews: 245,
+    price: 1200000,
+    type: 'Olahraga Air',
     duration: '1 jam',
-    hasGps: true
+    hasGps: true,
+    category: 'watersports'
   },
   {
-    id: '4',
-    name: 'Perahu Nelayan',
-    image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmaXNoaW5nJTIwYm9hdCUyMGxha2V8ZW58MXx8fHwxNzU5MjkzMDMzfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-    location: 'Ambarita - Onan Runggu',
+    id: '6',
+    name: 'Jetski Premium Package',
+    image: 'https://images.unsplash.com/photo-1648484983838-b47185140bee?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxqZXRza2klMjB3YXRlciUyMHNwb3J0cyUyMGxha2V8ZW58MXx8fHwxNzU5OTI4NDY5fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+    location: 'Samosir',
+    capacity: 2,
+    rating: 5.0,
+    reviews: 189,
+    price: 1500000,
+    type: 'Olahraga Air',
+    duration: '1 jam + foto/video',
+    hasGps: true,
+    category: 'watersports'
+  },
+  {
+    id: '7',
+    name: 'Banana Boat Fun',
+    image: 'https://images.unsplash.com/photo-1680238577907-6e4549d95b44?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxiYW5hbmElMjBib2F0JTIwd2F0ZXIlMjBzcG9ydHN8ZW58MXx8fHwxNzU5OTI4NDcyfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+    location: 'Samosir',
     capacity: 6,
-    rating: 4.5,
-    reviews: 67,
-    price: 80000,
-    type: 'Perahu Nelayan',
-    duration: '2 jam',
-    hasGps: false
+    rating: 4.7,
+    reviews: 312,
+    price: 250000,
+    type: 'Olahraga Air',
+    duration: '30 menit',
+    hasGps: false,
+    category: 'watersports'
+  },
+  {
+    id: '8',
+    name: 'Banana Boat + Documentation',
+    image: 'https://images.unsplash.com/photo-1680238577907-6e4549d95b44?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxiYW5hbmElMjBib2F0JTIwd2F0ZXIlMjBzcG9ydHN8ZW58MXx8fHwxNzU5OTI4NDcyfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+    location: 'Samosir',
+    capacity: 6,
+    rating: 4.8,
+    reviews: 287,
+    price: 350000,
+    type: 'Olahraga Air',
+    duration: '30 menit + foto/video',
+    hasGps: false,
+    category: 'watersports'
+  },
+  {
+    id: '9',
+    name: 'Donut Boat Ride',
+    image: 'https://images.unsplash.com/photo-1714822270785-e307c2e28709?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkb251dCUyMGJvYXQlMjB3YXRlciUyMHNwb3J0cyUyMHR1YmV8ZW58MXx8fHwxNzU5OTI4NDc1fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+    location: 'Samosir',
+    capacity: 4,
+    rating: 4.6,
+    reviews: 198,
+    price: 150000,
+    type: 'Olahraga Air',
+    duration: '20 menit',
+    hasGps: false,
+    category: 'watersports'
+  },
+  {
+    id: '10',
+    name: 'Donut Boat + Documentation',
+    image: 'https://images.unsplash.com/photo-1714822270785-e307c2e28709?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkb251dCUyMGJvYXQlMjB3YXRlciUyMHNwb3J0cyUyMHR1YmV8ZW58MXx8fHwxNzU5OTI4NDc1fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+    location: 'Samosir',
+    capacity: 4,
+    rating: 4.7,
+    reviews: 165,
+    price: 250000,
+    type: 'Olahraga Air',
+    duration: '20 menit + foto/video',
+    hasGps: false,
+    category: 'watersports'
+  },
+  {
+    id: '11',
+    name: 'Speed Boat Thrill',
+    image: 'https://images.unsplash.com/photo-1569832653475-fd1028ed7eab?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsYWtlJTIwdG9iYSUyMHNhbW9zaXIlMjBpc2xhbmR8ZW58MXx8fHwxNzU5MjkzMDMxfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+    location: 'Samosir',
+    capacity: 6,
+    rating: 4.8,
+    reviews: 278,
+    price: 400000,
+    type: 'Olahraga Air',
+    duration: '30 menit',
+    hasGps: true,
+    category: 'watersports'
+  },
+  {
+    id: '12',
+    name: 'Speed Boat + Documentation',
+    image: 'https://images.unsplash.com/photo-1569832653475-fd1028ed7eab?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsYWtlJTIwdG9iYSUyMHNhbW9zaXIlMjBpc2xhbmR8ZW58MXx8fHwxNzU5MjkzMDMxfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+    location: 'Samosir',
+    capacity: 6,
+    rating: 4.9,
+    reviews: 234,
+    price: 500000,
+    type: 'Olahraga Air',
+    duration: '30 menit + foto/video',
+    hasGps: true,
+    category: 'watersports'
+  },
+  {
+    id: '13',
+    name: 'Perahu Sampan Tradisional',
+    image: 'https://images.unsplash.com/photo-1743504440802-5fdea460cd6d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0cmFkaXRpb25hbCUyMHNhbXBhbiUyMGJvYXQlMjBpbmRvbmVzaWF8ZW58MXx8fHwxNzU5OTI4NDc4fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+    location: 'Samosir',
+    capacity: 4,
+    rating: 4.4,
+    reviews: 156,
+    price: 30000,
+    type: 'Perahu Sampan',
+    duration: '1 jam',
+    hasGps: false,
+    category: 'traditional'
   }
 ];
 
 const categories = {
-  id: ['Semua', 'Kapal Tradisional', 'Speed Boat', 'Kapal Wisata', 'Perahu Nelayan'],
-  en: ['All', 'Traditional Boat', 'Speed Boat', 'Tourist Boat', 'Fishing Boat']
+  id: ['Semua', 'Jetski', 'Banana Boat', 'Donut Boat', 'Speed Boat', 'Perahu Sampan'],
+  en: ['All', 'Jetski', 'Banana Boat', 'Donut Boat', 'Speed Boat', 'Sampan Boat']
 };
 
 export default function App() {
@@ -80,6 +157,16 @@ export default function App() {
   const [language, setLanguage] = useState<'id' | 'en'>('id');
   const [selectedCategory, setSelectedCategory] = useState(categories[language][0]);
   const [filteredBoats, setFilteredBoats] = useState(soraBoats);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate app loading
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2500);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleSearch = (params: SearchParams) => {
     // Mock search functionality
@@ -99,19 +186,20 @@ export default function App() {
     if (category === allKey) {
       setFilteredBoats(soraBoats);
     } else {
-      // Map category translations to boat types
-      const categoryMap = {
-        'Kapal Tradisional': 'Kapal Tradisional',
-        'Traditional Boat': 'Kapal Tradisional',
-        'Speed Boat': 'Speed Boat',
-        'Kapal Wisata': 'Kapal Wisata',
-        'Tourist Boat': 'Kapal Wisata',
-        'Perahu Nelayan': 'Perahu Nelayan',
-        'Fishing Boat': 'Perahu Nelayan'
-      };
-      
-      const boatType = categoryMap[category as keyof typeof categoryMap];
-      setFilteredBoats(soraBoats.filter(boat => boat.type === boatType));
+      // Filter by activity name
+      if (category === 'Jetski') {
+        setFilteredBoats(soraBoats.filter(boat => boat.name.includes('Jetski')));
+      } else if (category === 'Banana Boat') {
+        setFilteredBoats(soraBoats.filter(boat => boat.name.includes('Banana Boat')));
+      } else if (category === 'Donut Boat') {
+        setFilteredBoats(soraBoats.filter(boat => boat.name.includes('Donut Boat')));
+      } else if (category === 'Speed Boat' || category === 'Speed Boat') {
+        setFilteredBoats(soraBoats.filter(boat => boat.name.includes('Speed Boat')));
+      } else if (category === 'Perahu Sampan' || category === 'Sampan Boat') {
+        setFilteredBoats(soraBoats.filter(boat => boat.type === 'Perahu Sampan'));
+      } else {
+        setFilteredBoats(soraBoats);
+      }
     }
   };
 
@@ -124,37 +212,41 @@ export default function App() {
   const text = {
     id: {
       popularCategories: 'Kategori Populer',
-      featuredBoats: 'Kapal Unggulan',
+      featuredBoats: 'Aktivitas Olahraga Air',
       viewAll: 'Lihat Semua',
       needHelp: 'Butuh Bantuan Memilih?',
-      helpDescription: 'Tim ahli kami dapat membantu Anda menemukan kapal yang sempurna untuk petualangan Anda.',
+      helpDescription: 'Tim ahli kami dapat membantu Anda menemukan aktivitas yang sempurna untuk petualangan Anda.',
       contactSupport: 'Hubungi Dukungan',
       myBookings: 'Pemesanan Saya',
       paymentMethods: 'Metode Pembayaran',
       settings: 'Pengaturan',
       helpSupport: 'Bantuan & Dukungan',
       searchResults: 'Hasil Pencarian',
-      searchHint: 'Gunakan pencarian di atas untuk menemukan kapal di area Anda',
+      searchHint: 'Gunakan pencarian di atas untuk menemukan aktivitas di area Anda',
       favorites: 'Favorit Anda',
-      noFavorites: 'Belum ada favorit. Mulai jelajahi kapal!',
-      profile: 'Profil'
+      noFavorites: 'Belum ada favorit. Mulai jelajahi aktivitas!',
+      profile: 'Profil',
+      waterSports: 'Olahraga Air di Samosir',
+      newWaterSports: 'Aktivitas Baru!'
     },
     en: {
       popularCategories: 'Popular Categories',
-      featuredBoats: 'Featured Boats',
+      featuredBoats: 'Water Sports Activities',
       viewAll: 'View All',
       needHelp: 'Need Help Choosing?',
-      helpDescription: 'Our experts can help you find the perfect boat for your adventure.',
+      helpDescription: 'Our experts can help you find the perfect activity for your adventure.',
       contactSupport: 'Contact Support',
       myBookings: 'My Bookings',
       paymentMethods: 'Payment Methods',
       settings: 'Settings',
       helpSupport: 'Help & Support',
       searchResults: 'Search Results',
-      searchHint: 'Use the search above to find boats in your area',
+      searchHint: 'Use the search above to find activities in your area',
       favorites: 'Your Favorites',
-      noFavorites: 'No favorites yet. Start exploring boats!',
-      profile: 'Profile'
+      noFavorites: 'No favorites yet. Start exploring activities!',
+      profile: 'Profile',
+      waterSports: 'Water Sports in Samosir',
+      newWaterSports: 'New Activities!'
     }
   };
 
@@ -229,6 +321,31 @@ export default function App() {
           </button>
         </div>
         
+        {/* Water Sports Promo Banner */}
+        <div 
+          className="mt-6 rounded-2xl p-6 text-center text-white relative overflow-hidden"
+          style={{ 
+            background: 'linear-gradient(135deg, #2980B9 0%, #0C2D6B 100%)'
+          }}
+        >
+          <Award className="absolute top-2 right-2 w-8 h-8 opacity-30" />
+          <h3 className="mb-2">
+            {language === 'id' ? '🌊 Olahraga Air Baru di Samosir!' : '🌊 New Water Sports in Samosir!'}
+          </h3>
+          <p className="text-sm opacity-90">
+            {language === 'id' 
+              ? 'Nikmati Jetski, Banana Boat, Donut Boat & lebih banyak lagi!'
+              : 'Enjoy Jetski, Banana Boat, Donut Boat & more!'
+            }
+          </p>
+          <button 
+            onClick={() => handleCategoryFilter(language === 'id' ? 'Olahraga Air' : 'Water Sports')}
+            className="mt-3 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-xl hover:bg-white/30 transition-all"
+          >
+            {language === 'id' ? 'Lihat Aktivitas' : 'View Activities'}
+          </button>
+        </div>
+
         {/* Promo Banner */}
         <div 
           className="mt-6 rounded-2xl p-6 text-center text-white relative overflow-hidden"
@@ -237,8 +354,15 @@ export default function App() {
           }}
         >
           <Award className="absolute top-2 right-2 w-8 h-8 opacity-30" />
-          <h3 className="mb-2">Promo Akhir Tahun!</h3>
-          <p className="text-sm opacity-90">Dapatkan diskon 20% untuk pemesanan pertama Anda</p>
+          <h3 className="mb-2">
+            {language === 'id' ? 'Promo Akhir Tahun!' : 'Year-End Promo!'}
+          </h3>
+          <p className="text-sm opacity-90">
+            {language === 'id' 
+              ? 'Dapatkan diskon 20% untuk pemesanan pertama Anda'
+              : 'Get 20% discount for your first booking'
+            }
+          </p>
         </div>
       </div>
     </div>
@@ -318,6 +442,10 @@ export default function App() {
         return renderHome();
     }
   };
+
+  if (isLoading) {
+    return <SplashScreen language={language} />;
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">

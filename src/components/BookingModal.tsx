@@ -1,6 +1,7 @@
 import { X, Calendar, Users, CreditCard } from 'lucide-react';
 import { useState } from 'react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
+import soraLogo from 'figma:asset/ef516f90d1a9f4e4b7ac568320a02606f60d5319.png';
 
 interface BookingModalProps {
   boat: any;
@@ -89,7 +90,16 @@ export function BookingModal({ boat, isOpen, onClose, language }: BookingModalPr
     <div className="fixed inset-0 bg-black/50 z-50 flex items-end sm:items-center justify-center">
       <div className="bg-white w-full max-w-md mx-4 rounded-t-3xl sm:rounded-3xl max-h-[90vh] overflow-y-auto">
         <div className="sticky top-0 bg-white border-b p-4 flex items-center justify-between rounded-t-3xl">
-          <h2 style={{ color: '#0C2D6B' }}>{text[language].book} {boat.name}</h2>
+          <div className="flex items-center gap-2">
+            <div className="bg-white rounded-lg px-2 py-1 shadow-[0_3px_12px_rgba(0,0,0,0.08),0_1px_6px_rgba(0,0,0,0.05),inset_0_1px_0_rgba(255,255,255,0.6)] border border-gray-100/60 transform hover:scale-105 transition-transform duration-200">
+              <img 
+                src={soraLogo} 
+                alt="Sora Logo" 
+                className="h-5 w-auto object-contain drop-shadow-[0_1px_3px_rgba(0,0,0,0.08)]"
+              />
+            </div>
+            <h2 style={{ color: '#0C2D6B' }}>{text[language].book}</h2>
+          </div>
           <button 
             onClick={onClose} 
             className="p-2 rounded-full transition-colors"

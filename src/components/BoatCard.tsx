@@ -99,7 +99,9 @@ export function BoatCard({
         <div className="flex items-center justify-between">
           <div>
             <span style={{ color: '#2980B9' }}>Rp {price.toLocaleString('id-ID')}</span>
-            <span style={{ color: '#7F8C8D' }} className="text-sm">/trip</span>
+            <span style={{ color: '#7F8C8D' }} className="text-sm">
+              {type === 'Perahu Sampan' ? '/jam' : '/trip'}
+            </span>
           </div>
           <button 
             onClick={() => onBookNow(boat)}

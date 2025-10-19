@@ -1,5 +1,6 @@
 import { Search, MapPin, Calendar, Users, Waves } from 'lucide-react';
 import { useState } from 'react';
+import soraLogo from 'figma:asset/b4398db50b454ae1b722a3f11af68f59d92f1dad.png';
 
 interface SearchHeaderProps {
   onSearch: (params: SearchParams) => void;
@@ -50,7 +51,13 @@ export function SearchHeader({ onSearch, language }: SearchHeaderProps) {
       </div>
       <div className="px-4 py-8 relative z-10">
         <div className="text-center mb-6">
-          <h1 className="text-3xl mb-2 text-white tracking-wide">{text[language].brand}</h1>
+          <div className="flex justify-center mb-2">
+            <img 
+              src={soraLogo} 
+              alt="Sora Logo" 
+              className="h-24 w-auto object-contain transform hover:scale-105 transition-transform duration-300"
+            />
+          </div>
           <p className="text-sm opacity-90 mb-1">{text[language].tagline}</p>
           <p className="text-sm opacity-75">{text[language].subtitle}</p>
         </div>
