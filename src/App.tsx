@@ -5,9 +5,16 @@ import { BookingModal } from './components/BookingModal';
 import { BottomNav } from './components/BottomNav';
 import { LanguageSwitcher } from './components/LanguageSwitcher';
 import { LoyaltyCard } from './components/LoyaltyCard';
+import { LoyaltyPage } from './components/LoyaltyPage';
+import { PromoPage } from './components/PromoPage';
+import { SupportPage } from './components/SupportPage';
 import { SplashScreen } from './components/SplashScreen';
+import { Toaster } from 'sonner@2.0.3';
 import { Filter, Star, Navigation, MessageCircle, Award } from 'lucide-react';
 import soraLogo from 'figma:asset/b4398db50b454ae1b722a3f11af68f59d92f1dad.png';
+import speedBoatImage from 'figma:asset/5d2c68c9cd4d84c784e699f051920f5d8184986f.png';
+import bananaBoatImage from 'figma:asset/08013b2f059cbe14f7be16ec069929e5e17a02e4.png';
+import donutBoatImage from 'figma:asset/2f8206adda3bfb27d51d5480c4e71edaea94a368.png';
 
 interface SearchParams {
   location: string;
@@ -15,13 +22,23 @@ interface SearchParams {
   guests: string;
 }
 
-const soraBoats = [
-  // Water Sports Activities in Samosir
+// Lokasi pantai di Samosir
+const locations = [
+  'Pantai Pasir Putih Parbaba',
+  'Pantai Batu Hoda',
+  'Pantai Sigurgur',
+  'Pantai Indah Situngkir',
+  'Sibolazi Beach',
+  'Batu Passa',
+  'Tuktuk Siadong',
+  'Ambarita'
+];
+
+// Template untuk setiap jenis aktivitas
+const boatTypes = [
   {
-    id: '5',
     name: 'Jetski Adventure',
     image: 'https://images.unsplash.com/photo-1648484983838-b47185140bee?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxqZXRza2klMjB3YXRlciUyMHNwb3J0cyUyMGxha2V8ZW58MXx8fHwxNzU5OTI4NDY5fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-    location: 'Samosir',
     capacity: 2,
     rating: 4.9,
     reviews: 245,
@@ -32,25 +49,9 @@ const soraBoats = [
     category: 'watersports'
   },
   {
-    id: '6',
-    name: 'Jetski Premium Package',
-    image: 'https://images.unsplash.com/photo-1648484983838-b47185140bee?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxqZXRza2klMjB3YXRlciUyMHNwb3J0cyUyMGxha2V8ZW58MXx8fHwxNzU5OTI4NDY5fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-    location: 'Samosir',
-    capacity: 2,
-    rating: 5.0,
-    reviews: 189,
-    price: 1500000,
-    type: 'Olahraga Air',
-    duration: '1 jam + foto/video',
-    hasGps: true,
-    category: 'watersports'
-  },
-  {
-    id: '7',
     name: 'Banana Boat Fun',
-    image: 'https://images.unsplash.com/photo-1680238577907-6e4549d95b44?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxiYW5hbmElMjBib2F0JTIwd2F0ZXIlMjBzcG9ydHN8ZW58MXx8fHwxNzU5OTI4NDcyfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-    location: 'Samosir',
-    capacity: 6,
+    image: bananaBoatImage,
+    capacity: '8-10' as any,
     rating: 4.7,
     reviews: 312,
     price: 250000,
@@ -60,24 +61,8 @@ const soraBoats = [
     category: 'watersports'
   },
   {
-    id: '8',
-    name: 'Banana Boat + Documentation',
-    image: 'https://images.unsplash.com/photo-1680238577907-6e4549d95b44?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxiYW5hbmElMjBib2F0JTIwd2F0ZXIlMjBzcG9ydHN8ZW58MXx8fHwxNzU5OTI4NDcyfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-    location: 'Samosir',
-    capacity: 6,
-    rating: 4.8,
-    reviews: 287,
-    price: 350000,
-    type: 'Olahraga Air',
-    duration: '30 menit + foto/video',
-    hasGps: false,
-    category: 'watersports'
-  },
-  {
-    id: '9',
     name: 'Donut Boat Ride',
-    image: 'https://images.unsplash.com/photo-1714822270785-e307c2e28709?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkb251dCUyMGJvYXQlMjB3YXRlciUyMHNwb3J0cyUyMHR1YmV8ZW58MXx8fHwxNzU5OTI4NDc1fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-    location: 'Samosir',
+    image: donutBoatImage,
     capacity: 4,
     rating: 4.6,
     reviews: 198,
@@ -88,24 +73,8 @@ const soraBoats = [
     category: 'watersports'
   },
   {
-    id: '10',
-    name: 'Donut Boat + Documentation',
-    image: 'https://images.unsplash.com/photo-1714822270785-e307c2e28709?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkb251dCUyMGJvYXQlMjB3YXRlciUyMHNwb3J0cyUyMHR1YmV8ZW58MXx8fHwxNzU5OTI4NDc1fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-    location: 'Samosir',
-    capacity: 4,
-    rating: 4.7,
-    reviews: 165,
-    price: 250000,
-    type: 'Olahraga Air',
-    duration: '20 menit + foto/video',
-    hasGps: false,
-    category: 'watersports'
-  },
-  {
-    id: '11',
     name: 'Speed Boat Thrill',
-    image: 'https://images.unsplash.com/photo-1569832653475-fd1028ed7eab?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsYWtlJTIwdG9iYSUyMHNhbW9zaXIlMjBpc2xhbmR8ZW58MXx8fHwxNzU5MjkzMDMxfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-    location: 'Samosir',
+    image: speedBoatImage,
     capacity: 6,
     rating: 4.8,
     reviews: 278,
@@ -116,34 +85,27 @@ const soraBoats = [
     category: 'watersports'
   },
   {
-    id: '12',
-    name: 'Speed Boat + Documentation',
-    image: 'https://images.unsplash.com/photo-1569832653475-fd1028ed7eab?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsYWtlJTIwdG9iYSUyMHNhbW9zaXIlMjBpc2xhbmR8ZW58MXx8fHwxNzU5MjkzMDMxfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-    location: 'Samosir',
-    capacity: 6,
-    rating: 4.9,
-    reviews: 234,
-    price: 500000,
-    type: 'Olahraga Air',
-    duration: '30 menit + foto/video',
-    hasGps: true,
-    category: 'watersports'
-  },
-  {
-    id: '13',
     name: 'Perahu Sampan Tradisional',
     image: 'https://images.unsplash.com/photo-1743504440802-5fdea460cd6d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0cmFkaXRpb25hbCUyMHNhbXBhbiUyMGJvYXQlMjBpbmRvbmVzaWF8ZW58MXx8fHwxNzU5OTI4NDc4fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-    location: 'Samosir',
     capacity: 4,
     rating: 4.4,
     reviews: 156,
     price: 30000,
     type: 'Perahu Sampan',
-    duration: '1 jam',
+    duration: '3 jam',
     hasGps: false,
     category: 'traditional'
   }
 ];
+
+// Generate semua kombinasi boat x lokasi
+const soraBoats = boatTypes.flatMap((boat, boatIndex) => 
+  locations.map((location, locationIndex) => ({
+    id: `${boatIndex * 8 + locationIndex + 1}`,
+    ...boat,
+    location
+  }))
+);
 
 const categories = {
   id: ['Semua', 'Jetski', 'Banana Boat', 'Donut Boat', 'Speed Boat', 'Perahu Sampan'],
@@ -158,6 +120,9 @@ export default function App() {
   const [selectedCategory, setSelectedCategory] = useState(categories[language][0]);
   const [filteredBoats, setFilteredBoats] = useState(soraBoats);
   const [isLoading, setIsLoading] = useState(true);
+  const [showLoyaltyPage, setShowLoyaltyPage] = useState(false);
+  const [showPromoPage, setShowPromoPage] = useState(false);
+  const [showSupportPage, setShowSupportPage] = useState(false);
 
   useEffect(() => {
     // Simulate app loading
@@ -262,7 +227,12 @@ export default function App() {
       <div className="px-4 py-6">
         {/* Loyalty Card */}
         <div className="mb-6">
-          <LoyaltyCard points={2500} level="Gold" language={language} />
+          <LoyaltyCard 
+            points={2500} 
+            level="Gold" 
+            language={language}
+            onClick={() => setShowLoyaltyPage(true)}
+          />
         </div>
 
         <div className="flex items-center justify-between mb-4">
@@ -273,12 +243,19 @@ export default function App() {
           </button>
         </div>
         
-        <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
+        <div 
+          className="flex gap-2 mb-6 overflow-x-auto pb-2 scrollbar-hide"
+          style={{ 
+            WebkitOverflowScrolling: 'touch',
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none'
+          }}
+        >
           {categories[language].map((category) => (
             <button
               key={category}
               onClick={() => handleCategoryFilter(category)}
-              className={`px-4 py-2 rounded-full whitespace-nowrap transition-colors ${
+              className={`px-4 py-2 rounded-full whitespace-nowrap flex-shrink-0 transition-colors ${
                 selectedCategory === category
                   ? 'text-white'
                   : 'hover:opacity-80'
@@ -293,12 +270,7 @@ export default function App() {
           ))}
         </div>
         
-        <div className="flex items-center justify-between mb-4">
-          <h2 style={{ color: '#0C2D6B' }}>{text[language].featuredBoats}</h2>
-          <button style={{ color: '#2980B9' }} className="text-sm">{text[language].viewAll}</button>
-        </div>
-        
-        <div className="grid gap-4">
+        <div className="grid grid-cols-1 gap-4 justify-items-center">
           {filteredBoats.map((boat) => (
             <BoatCard
               key={boat.id}
@@ -314,6 +286,7 @@ export default function App() {
           <h3 className="mb-2" style={{ color: '#0C2D6B' }}>{text[language].needHelp}</h3>
           <p className="mb-4" style={{ color: '#7F8C8D' }}>{text[language].helpDescription}</p>
           <button 
+            onClick={() => setShowSupportPage(true)}
             style={{ backgroundColor: '#0C2D6B' }}
             className="text-white px-6 py-3 rounded-xl hover:opacity-90 transition-all"
           >
@@ -321,34 +294,10 @@ export default function App() {
           </button>
         </div>
         
-        {/* Water Sports Promo Banner */}
-        <div 
-          className="mt-6 rounded-2xl p-6 text-center text-white relative overflow-hidden"
-          style={{ 
-            background: 'linear-gradient(135deg, #2980B9 0%, #0C2D6B 100%)'
-          }}
-        >
-          <Award className="absolute top-2 right-2 w-8 h-8 opacity-30" />
-          <h3 className="mb-2">
-            {language === 'id' ? '🌊 Olahraga Air Baru di Samosir!' : '🌊 New Water Sports in Samosir!'}
-          </h3>
-          <p className="text-sm opacity-90">
-            {language === 'id' 
-              ? 'Nikmati Jetski, Banana Boat, Donut Boat & lebih banyak lagi!'
-              : 'Enjoy Jetski, Banana Boat, Donut Boat & more!'
-            }
-          </p>
-          <button 
-            onClick={() => handleCategoryFilter(language === 'id' ? 'Olahraga Air' : 'Water Sports')}
-            className="mt-3 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-xl hover:bg-white/30 transition-all"
-          >
-            {language === 'id' ? 'Lihat Aktivitas' : 'View Activities'}
-          </button>
-        </div>
-
         {/* Promo Banner */}
         <div 
-          className="mt-6 rounded-2xl p-6 text-center text-white relative overflow-hidden"
+          onClick={() => setShowPromoPage(true)}
+          className="mt-6 rounded-2xl p-6 text-center text-white relative overflow-hidden cursor-pointer hover:opacity-95 transition-opacity"
           style={{ 
             background: 'linear-gradient(135deg, #F39C12 0%, #E67E22 100%)'
           }}
@@ -359,9 +308,12 @@ export default function App() {
           </h3>
           <p className="text-sm opacity-90">
             {language === 'id' 
-              ? 'Dapatkan diskon 20% untuk pemesanan pertama Anda'
-              : 'Get 20% discount for your first booking'
+              ? 'Dapatkan diskon hingga 35% untuk semua aktivitas!'
+              : 'Get up to 35% discount for all activities!'
             }
+          </p>
+          <p className="text-xs mt-2 opacity-75">
+            {language === 'id' ? 'Ketuk untuk lihat detail' : 'Tap to see details'}
           </p>
         </div>
       </div>
@@ -421,6 +373,7 @@ export default function App() {
           <span style={{ color: '#0C2D6B' }}>{text[language].settings}</span>
         </button>
         <button 
+          onClick={() => setShowSupportPage(true)}
           className="w-full bg-white rounded-xl p-4 text-left hover:opacity-90 transition-all"
           style={{ borderColor: '#2980B9', borderWidth: '1px' }}
         >
@@ -447,6 +400,40 @@ export default function App() {
     return <SplashScreen language={language} />;
   }
 
+  if (showLoyaltyPage) {
+    return (
+      <>
+        <LoyaltyPage language={language} onClose={() => setShowLoyaltyPage(false)} />
+        <Toaster position="top-center" richColors />
+      </>
+    );
+  }
+
+  if (showPromoPage) {
+    return (
+      <>
+        <PromoPage 
+          language={language} 
+          onClose={() => setShowPromoPage(false)}
+          boats={soraBoats}
+        />
+        <Toaster position="top-center" richColors />
+      </>
+    );
+  }
+
+  if (showSupportPage) {
+    return (
+      <>
+        <SupportPage 
+          language={language} 
+          onClose={() => setShowSupportPage(false)}
+        />
+        <Toaster position="top-center" richColors />
+      </>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       {renderContent()}
@@ -462,6 +449,8 @@ export default function App() {
           setSelectedBoat(null);
         }}
       />
+      
+      <Toaster position="top-center" richColors />
     </div>
   );
 }

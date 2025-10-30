@@ -4,9 +4,10 @@ interface LoyaltyCardProps {
   points: number;
   level: string;
   language: 'id' | 'en';
+  onClick?: () => void;
 }
 
-export function LoyaltyCard({ points, level, language }: LoyaltyCardProps) {
+export function LoyaltyCard({ points, level, language, onClick }: LoyaltyCardProps) {
   const text = {
     id: {
       loyaltyPoints: 'Poin Loyalitas',
@@ -22,7 +23,8 @@ export function LoyaltyCard({ points, level, language }: LoyaltyCardProps) {
 
   return (
     <div 
-      className="rounded-2xl p-4 text-white relative overflow-hidden"
+      onClick={onClick}
+      className="rounded-2xl p-4 text-white relative overflow-hidden cursor-pointer hover:opacity-95 transition-opacity"
       style={{ 
         background: 'linear-gradient(135deg, #0C2D6B 0%, #2980B9 100%)'
       }}
